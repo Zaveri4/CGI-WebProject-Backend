@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Ruslan
+      changes:
+        - createTable:
+            tableName: flight
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: origin
+                  type: varchar(255)
+              - column:
+                  name: destination
+                  type: varchar(255)
+              - column:
+                  name: date
+                  type: date
+              - column:
+                  name: departure_time
+                  type: time
+              - column:
+                  name: price
+                  type: decimal(10,2)
+  - changeSet:
+      id: 2
+      author: Ruslan
+      changes:
+        - createTable:
+            tableName: seat
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: seat_number
+                  type: varchar(255)
+              - column:
+                  name: is_occupied
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_window_seat
+                  type: boolean
+              - column:
+                  name: has_extra_legroom
+                  type: boolean
+              - column:
+                  name: is_near_exit
+                  type: boolean
+              - column:
+                  name: flight_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_seat_flight
+                    references: flight(id)

@@ -65,3 +65,22 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_seat_flight
                     references: flight(id)
+  - changeSet:
+      id: 3
+      author: Ruslan
+      changes:
+        - dropColumn:
+            tableName: flight
+            columnName: origin
+  - changeSet:
+      id: 4
+      author: Ruslan
+      changes:
+        - addColumn:
+            tableName: flight
+            columns:
+              - column:
+                  name: duration
+                  type: bigint
+                  constraints:
+                    nullable: false

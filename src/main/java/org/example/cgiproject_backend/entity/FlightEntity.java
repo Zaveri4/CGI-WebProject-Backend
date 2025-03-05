@@ -32,6 +32,9 @@ public class FlightEntity {
     @Column(nullable = false)
     private double price;
 
+    @Column(nullable = false)
+    private int duration;
+
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL)
     private List<SeatEntity> seats;
 }

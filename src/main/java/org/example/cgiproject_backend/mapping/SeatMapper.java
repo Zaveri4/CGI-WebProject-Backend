@@ -9,4 +9,5 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SeatMapper {
     List<SeatDto> toDtoList(List<SeatEntity> entities);
+    SeatDto toDto(SeatEntity entity);
 }

@@ -31,11 +31,9 @@ public class FlightController {
     public ResponseEntity<List<FlightDto>> getFlights(
             @RequestParam(required = false) String destination,
             @RequestParam(required = false) String departureDate,
-            @RequestParam(required = false) Integer minDuration,
-            @RequestParam(required = false) Integer maxDuration,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice
     ) {
-        return ResponseEntity.ok(flightService.getFilteredFlight(destination, departureDate, minDuration, maxDuration, minPrice, maxPrice));
+        return ResponseEntity.ok(flightService.getFilteredFlight(destination, departureDate, minPrice, maxPrice));
     }
 }

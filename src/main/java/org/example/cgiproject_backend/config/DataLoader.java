@@ -26,6 +26,7 @@ public class DataLoader {
             "Los Angeles", "Singapore", "Amsterdam", "Hong Kong",
             "Madrid", "Rome", "Bangkok", "Chicago"
     );
+    private static final List<Integer> ROWS_IS_NEAR_EXIT = List.of(1, 2, 8, 9, 17, 18);
 
     @PostConstruct
     public void loadData() {
@@ -38,7 +39,7 @@ public class DataLoader {
         for (int i = 0; i < 10; i++) {
             FlightEntity flight = createRandomFlight();
             flightRepository.save(flight);
-            generateSeatsForFlight(flight, 18, new char[]{'A', 'B', 'C', 'D', 'E', 'F'});
+            generateSeatsForFlight(flight, new char[]{'A', 'B', 'C', 'D', 'E', 'F'});
         }
     }
 
@@ -52,10 +53,10 @@ public class DataLoader {
         return flight;
     }
 
-    private void generateSeatsForFlight(FlightEntity flight, int rows, char[] seatColumns) {
+    private void generateSeatsForFlight(FlightEntity flight, char[] seatColumns) {
         List<SeatEntity> seats = new ArrayList<>();
 
-        for (int row = 1; row <= rows; row++) {
+        for (int row = 1; row <= 18; row++) {
             for (char col : seatColumns) {
                 seats.add(createSeat(flight, row, col));
             }
@@ -68,9 +69,9 @@ public class DataLoader {
         seat.setFlight(flight);
         seat.setSeatNumber(row + String.valueOf(col));
         seat.setOccupied(random.nextDouble() < 0.3);
-        seat.setWindowSeat(random.nextDouble() < 0.3);
-        seat.setHasExtraLegroom(random.nextDouble() < 0.3);
-        seat.setNearExit(random.nextDouble() < 0.3);
+        seat.setWindowSeat(col == 'A' || col == 'F');
+        seat.setHasExtraLegroom(row == 1 || row == 9);
+        seat.setNearExit(ROWS_IS_NEAR_EXIT.contains(row));
         return seat;
     }
 
@@ -87,7 +88,7 @@ public class DataLoader {
     }
 
     private double randomPrice() {
-        return 100 + random.nextInt(401);
+        return (double) 100 + random.nextInt(401);
     }
 
     private int randomDuration() {

@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,7 +22,7 @@ public class FlightDto {
     private String destination;
 
     @Schema(description = "Flight departure date", example = "2025-03-10")
-    private LocalDate departureDate;
+    private LocalDate date;
 
     @Schema(description = "Flight departure time", example = "15:30")
     private LocalTime departureTime;

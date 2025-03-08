@@ -84,3 +84,11 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 5
+      author: Ruslan
+      changes:
+        - addAutoIncrement:
+            tableName: seat
+            columnName: id
+            columnDataType: bigint

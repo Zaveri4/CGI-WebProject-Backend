@@ -18,10 +18,10 @@ import java.util.List;
 public class SeatController {
     private final SeatService seatService;
 
-    @Operation(summary = "Get seats by ID", description = "Return a list of seats for given flight.")
-    @ApiResponse(responseCode = "200", description = "Successfully founded seats")
+    @Operation(summary = "Get recommended seats by flight ID", description = "Return a list of seats that based on filters for given flight.")
+    @ApiResponse(responseCode = "200", description = "Successfully founded recommended seats")
     @ApiResponse(responseCode = "400", description = "Invalid flight ID")
-    @GetMapping("/{flightId}")
+    @GetMapping("/recommended/{flightId}")
     public ResponseEntity<List<SeatDto>> suggestSeat(@PathVariable Long flightId,
                                                      @RequestParam(required = false) Integer numSeats,
                                                      @RequestParam(required = false) boolean prefersWindow,
@@ -31,5 +31,13 @@ public class SeatController {
             numSeats = 1;
         }
         return ResponseEntity.ok(seatService.suggestSeat(flightId, numSeats, prefersWindow, prefersLegroom, isNearExit));
+    }
+
+    @Operation(summary = "Get seats by flight ID", description = "Return a list of seats for given flight.")
+    @ApiResponse(responseCode = "200", description = "Successfully founded seats")
+    @ApiResponse(responseCode = "400", description = "Invalid flight ID")
+    @GetMapping("/{flightId}")
+    public ResponseEntity<List<SeatDto>> getSeatsByFlightId(@PathVariable Long flightId) {
+        return ResponseEntity.ok(seatService.getSeatsByFlightId(flightId));
     }
 }

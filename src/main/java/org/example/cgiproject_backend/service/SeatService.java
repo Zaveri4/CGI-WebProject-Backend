@@ -26,11 +26,9 @@ public class SeatService {
                 .map(seatMapper::toDto)
                 .toList();
 
-        // Grupeerime istmed ridade kaupa
         Map<Integer, List<SeatDto>> seatsByRow = availableSeats.stream()
                 .collect(Collectors.groupingBy(seat -> getRowNumber(seat.getSeatNumber())));
 
-        // Otsime sobiva rea, kus on piisavalt vabu istekohti järjest
         for (List<SeatDto> rowSeats : seatsByRow.values()) {
             List<SeatDto> sortedRowSeats = rowSeats.stream()
                     .sorted(Comparator.comparing(SeatDto::getSeatNumber))
@@ -45,7 +43,6 @@ public class SeatService {
             }
         }
 
-        // Kui ideaalset varianti ei leitud, tagastame lihtsalt esimesed järjestikused kohad
         return availableSeats.stream()
                 .sorted(Comparator.comparing(SeatDto::getSeatNumber))
                 .limit(numSeats)
@@ -57,12 +54,10 @@ public class SeatService {
         boolean hasExtraLegroom = seatGroup.stream().anyMatch(SeatDto::isHasExtraLegroom);
         boolean isItNearExit = seatGroup.stream().anyMatch(SeatDto::isNearExit);
 
-        // Peame tagama, et vähemalt ÜKS istekoht vastab eelistustele
         return (!windowSeat || hasWindowSeat) && (!extraLegroom || hasExtraLegroom) && (!isNearExit || isItNearExit);
     }
 
     private int getRowNumber(String seatNumber) {
-        // Eeldame, et istekoht on kujul "12A", "15B"
         return Integer.parseInt(seatNumber.replaceAll("\\D", ""));
     }
 
